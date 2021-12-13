@@ -1,6 +1,3 @@
-import math
-
-
 with open("9_1.txt") as fp:
     instance_lines = fp.readlines()
 
@@ -31,8 +28,6 @@ print(f'summed risk level {summed_risk_levels}')
 def find_basin(x,y, basin_coord):
     old_basin_coord_len = len(basin_coord)
     basin_coord.add((x,y))
-
-    
 
     if old_basin_coord_len != len(basin_coord):
         neighbour_offsets = [(1,0),(-1,0),(0,1),(0,-1)]
