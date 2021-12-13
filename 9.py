@@ -8,14 +8,13 @@ with open("9_1.txt") as fp:
 
 def get_neighbour_min_value(x,y):
     neighbour_vals = []
-    if x-1 >= 0:
-        neighbour_vals.append(headmap[x-1][y])
-    if x+1 < len(headmap):
-        neighbour_vals.append(headmap[x+1][y])
-    if y-1 >= 0:
-        neighbour_vals.append(headmap[x][y-1])
-    if y+1 < len(headmap[0]):
-        neighbour_vals.append(headmap[x][y+1])
+    neighbour_offsets = [(1,0),(-1,0),(0,1),(0,-1)]
+    for x_off, y_off in neighbour_offsets:
+        neigh_x = x + x_off
+        neigh_y = y + y_off
+        if  0 <= neigh_x < len(headmap) and \
+            0 <= neigh_y < len(headmap[0]):
+            neighbour_vals.append(headmap[neigh_x][neigh_y])
     
     return min(neighbour_vals)
 
@@ -33,15 +32,18 @@ def find_basin(x,y, basin_coord):
     old_basin_coord_len = len(basin_coord)
     basin_coord.add((x,y))
 
+    
+
     if old_basin_coord_len != len(basin_coord):
-        if x-1 >= 0 and headmap[x-1][y] != 9:
-            find_basin(x-1,y, basin_coord)
-        if x+1 < len(headmap) and headmap[x+1][y] != 9:
-            find_basin(x+1,y, basin_coord)
-        if y-1 >= 0 and headmap[x][y-1] != 9:
-            find_basin(x,y-1, basin_coord)
-        if y+1 < len(headmap[0]) and headmap[x][y+1] != 9:
-            find_basin(x,y+1, basin_coord)
+        neighbour_offsets = [(1,0),(-1,0),(0,1),(0,-1)]
+        for x_off, y_off in neighbour_offsets:
+            neigh_x = x + x_off
+            neigh_y = y + y_off
+
+            if  0 <= neigh_x < len(headmap) and \
+                0 <= neigh_y < len(headmap[0]) and \
+                headmap[neigh_x][neigh_y] != 9:
+                find_basin(neigh_x,neigh_y, basin_coord)         
     
     return basin_coord
 
